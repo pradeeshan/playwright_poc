@@ -28,6 +28,7 @@ pipeline {
 
     post {
         always {
+            
             publishHTML(target: [
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
@@ -35,6 +36,14 @@ pipeline {
                 reportFiles: 'index.html',
                 reportName: 'Playwright HTML Report'
             ])
+
+            
+            emailext (
+                subject: "Status: ${currentBuild.result ?: 'SUCCESS'} - Job: ${env.JOB_NAME} [Build #${env.BUILD_NUMBER}]",
+                body: "The test run is complete. You can view the full report here: ${env.BUILD_URL}Playwright_20HTML_20Report/",
+                to: 'pradeeshannagarajan@gmail.com',
+                mimeType: 'text/html'
+            )
         }
     }
 }
