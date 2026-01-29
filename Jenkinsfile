@@ -28,6 +28,12 @@ pipeline {
 
     post {
         always {
+            script {
+                // This line relaxes Jenkins security so the HTML report styles and JS load correctly
+                System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "")
+            }
+            
+            echo 'Publishing Playwright HTML Report...'
             
             publishHTML(target: [
                 alwaysLinkToLastBuild: true,
